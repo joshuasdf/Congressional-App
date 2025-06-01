@@ -19,7 +19,10 @@ keys = pygame.key.get_pressed()
 
 clock = pygame.time.Clock()
 
-player = Player(0,0)
+pWidth = WIDTH*0.05
+pHeight = HEIGHT*0.075
+
+player = Player(0,0,pWidth,pHeight,screen)
 
 while running:
     screen.fill(BLACK)
@@ -28,7 +31,7 @@ while running:
             running = False
 
 
-    player.draw(screen)
+    player.draw()
     player.move()
     
     pygame.display.flip()
