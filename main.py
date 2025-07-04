@@ -39,7 +39,7 @@ while running:
 
 
     player.move()
-    stage.draw()
+    stage.draw(screen, player)
     player.draw(screen)
     
     pygame.display.flip()

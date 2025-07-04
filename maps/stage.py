@@ -1,5 +1,7 @@
-from sprites.playerSprite import Player
 import math
+import sys
+sys.path.append('..') # add parent directory to path
+from sprites.playerSprite import Player
 
 class Stage:
     def __init__(self,map,s_width,s_height,t_width,t_height):
@@ -9,7 +11,7 @@ class Stage:
         self.t_width=t_width
         self.t_height=t_height
     def draw(self,screen,player):
-        pTile=player.getTile
+        pTile=player.getTile(self.t_width,self.t_height) #get the tile the player is on
         f_width=math.ceil(self.width/self.t_width) #width of the frame in tiles
         f_height=math.ceil(self.height/self.t_height)# height of the fram in tiles
         frame=self.grid[
