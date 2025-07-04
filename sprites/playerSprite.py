@@ -1,11 +1,12 @@
 import pygame
 class Player:
-    def __init__(self, x,y):
+    def __init__(self, x, y, pWidth, pHeight, screen):
         self.x = x
         self.y = y
-        self.width = 50
-        self.height = 75
+        self.width = pWidth
+        self.height = pHeight
         self.speed = 5
+        self.screen = screen
 
     def draw(self, screen):
         pygame.draw.rect(screen, (255,255,255), (self.x,self.y, self.width,self.height))

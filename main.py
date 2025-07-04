@@ -26,7 +26,10 @@ keys = pygame.key.get_pressed()
 
 clock = pygame.time.Clock()
 
-player = Player(0,0)
+pWidth = WIDTH*0.05
+pHeight = HEIGHT*0.075
+
+player = Player(0,0,pWidth,pHeight,screen)
 
 _TOWN=[[(RED,GREEN,BLUE)[random.randint(0,2)] for i in range(100)] for i in range(100)] #generate town map of random tile colors
 stage=stage.Stage(_TOWN,WIDTH,HEIGHT,TILE_WIDTH,TILE_HEIGHT)
@@ -38,6 +41,8 @@ while running:
             running = False
 
 
+    player.draw()
+    player.move()
     player.move()
     stage.draw(screen, player)
     player.draw(screen)
