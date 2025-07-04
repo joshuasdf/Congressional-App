@@ -9,6 +9,7 @@ class Player:
 
     def draw(self, screen):
         pygame.draw.rect(screen, (255,255,255), (self.x,self.y, self.width,self.height))
+        #pygame.draw.rect(screen, (255,255,255), (screen.width,screen.height, self.width,self.height)) # screen height and width?
 
     def move(self):
         keys = pygame.key.get_pressed()
@@ -24,3 +25,6 @@ class Player:
         
         if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
             self.x += self.speed
+    def getTile(self,t_width,t_height):
+        return (self.x//t_width,self.y//t_height)
+        # return tile number in grid type tuple
