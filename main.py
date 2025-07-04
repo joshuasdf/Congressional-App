@@ -31,8 +31,7 @@ pHeight = int(HEIGHT*0.075)
 
 _TOWN=[[(RED,GREEN,BLUE)[random.randint(0,2)] for i in range(100)] for i in range(100)] #generate town map of random tile colors
 stage=stage.Stage(_TOWN,WIDTH,HEIGHT,TILE_WIDTH,TILE_HEIGHT,screen)
-player = Player(int(len(_TOWN)/2),int(len(_TOWN[0])/2),pWidth,pHeight,screen)
-
+player = Player(int((len(_TOWN)*TILE_WIDTH)/2),int(len((_TOWN[0]*TILE_HEIGHT))/2),pWidth,pHeight,screen)
 
 while running:
     screen.fill(BLACK)
