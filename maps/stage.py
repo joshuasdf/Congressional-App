@@ -1,5 +1,6 @@
 import math
 import sys
+import pygame
 sys.path.append('..') # add parent directory to path
 from sprites.playerSprite import Player
 
@@ -13,6 +14,7 @@ class Stage:
         self.screen=screen
     def draw(self,player):
         pTile=player.getTile(self.t_width,self.t_height) #get the tile the player is on
+        #print(f"Player Tile: {pTile}")
         f_width=math.ceil(self.width/self.t_width) #width of the frame in tiles
         f_height=math.ceil(self.height/self.t_height)# height of the fram in tiles
         frame=self.grid[
@@ -20,9 +22,17 @@ class Stage:
             ][
             pTile[1]-math.ceil(f_height/2):pTile[1]+math.ceil(f_height/2)
         ] #define the frame of the map visible to the player
+        #print(f"Frame: {frame}")
         for i in range(len(frame)):
             for j in range(len(frame[0])):
-                pass
+                pygame.draw.rect(
+                    self.screen,
+                    frame[i][j],
+                    (int((self.screen.get_width()-self.t_width)/2) + (i*self.t_width) - (player.x % self.t_width),
+                    int((self.screen.get_height()-self.t_height)/2) + (j*self.t_height) - (player.y % self.t_height),
+                    self.t_width,
+                    self.t_height)
+                )
                 # draw each individual tile at 
                 # x=(screen width/2)+(i*tile width)-(player x%tile width)
                 # y=(screen height/2)+(i*tile width)-(player x%tile width)

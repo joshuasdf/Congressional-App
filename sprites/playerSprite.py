@@ -9,8 +9,15 @@ class Player:
         self.screen = screen
 
     def draw(self):
-        pygame.draw.rect(self.screen, (255,255,255), (self.x,self.y, self.width,self.height))
-        #pygame.draw.rect(screen, (255,255,255), (screen.width,screen.height, self.width,self.height)) # screen height and width?
+        #pygame.draw.rect(self.screen, (255,255,255), (self.x,self.y, self.width,self.height))
+        pygame.draw.rect(
+            self.screen,
+            (255,255,255),
+            (int((self.screen.get_width()-self.width)/2),
+            int((self.screen.get_height()-self.height)/2),
+            self.width,
+            self.height)
+        )
 
     def move(self):
         keys = pygame.key.get_pressed()
