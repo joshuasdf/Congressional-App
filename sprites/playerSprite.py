@@ -8,8 +8,8 @@ class Player:
         self.speed = 5
         self.screen = screen
 
-    def draw(self, screen):
-        pygame.draw.rect(screen, (255,255,255), (self.x,self.y, self.width,self.height))
+    def draw(self):
+        pygame.draw.rect(self.screen, (255,255,255), (self.x,self.y, self.width,self.height))
         #pygame.draw.rect(screen, (255,255,255), (screen.width,screen.height, self.width,self.height)) # screen height and width?
 
     def move(self):

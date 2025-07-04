@@ -32,7 +32,7 @@ pHeight = HEIGHT*0.075
 player = Player(0,0,pWidth,pHeight,screen)
 
 _TOWN=[[(RED,GREEN,BLUE)[random.randint(0,2)] for i in range(100)] for i in range(100)] #generate town map of random tile colors
-stage=stage.Stage(_TOWN,WIDTH,HEIGHT,TILE_WIDTH,TILE_HEIGHT)
+stage=stage.Stage(_TOWN,WIDTH,HEIGHT,TILE_WIDTH,TILE_HEIGHT,screen)
 
 while running:
     screen.fill(BLACK)
@@ -41,11 +41,9 @@ while running:
             running = False
 
 
+    player.move()
+    stage.draw(player)
     player.draw()
-    player.move()
-    player.move()
-    stage.draw(screen, player)
-    player.draw(screen)
     
     pygame.display.flip()
     clock.tick(FPS)
