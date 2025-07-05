@@ -1,4 +1,5 @@
 import pygame
+# from maps.stage import Stage
 class Player:
     def __init__(self, x, y, pWidth, pHeight, screen):
         self.x = x
@@ -19,20 +20,39 @@ class Player:
             self.height)
         )
 
-    def move(self):
+    def move(self,stage):
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_w] or keys[pygame.K_UP]:
             self.y -= self.speed
+            if self.checkCollision(stage):
+                self.y += self.speed
         
         if keys[pygame.K_s] or keys[pygame.K_DOWN]:
             self.y += self.speed
+            if self.checkCollision(stage):
+                self.y -= self.speed
 
         if keys[pygame.K_a] or keys[pygame.K_LEFT]:
             self.x -= self.speed
+            if self.checkCollision(stage):
+                self.x += self.speed
         
         if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
             self.x += self.speed
-    def getTile(self,t_width,t_height):
-        return (self.x//t_width,self.y//t_height)
-        # return tile number in grid type tuple
+            if self.checkCollision(stage):
+                self.x -= self.speed
+        print(self.x,self.y, self.getTile(stage.t_size))
+
+    def getTile(self,t_size):
+        return (self.x//t_size,self.y//t_size)
+
+    def checkCollision(self, stage):
+        stageSize=(len(stage.grid[0])*stage.t_size,len(stage.grid)*stage.t_size)
+        return(
+            stage.collisions[self.getTile(stage.t_size)] or
+            self.x<0 or
+            self.y<0 or
+            self.x>stageSize[0] or
+            self.y>stageSize[1]
+        )
