@@ -1,12 +1,12 @@
 import pygame
 # from maps.stage import Stage
 class Player:
-    def __init__(self, x, y, pWidth, pHeight, screen):
+    def __init__(self, x, y, pWidth, pHeight, screen, FPS):
         self.x = x
         self.y = y
         self.width = pWidth
         self.height = pHeight
-        self.speed = 5
+        self.speed = 400//FPS
         self.screen = screen
 
     def draw(self):

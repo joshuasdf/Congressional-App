@@ -7,6 +7,8 @@ import random # to test scrolling
 
 pygame.init()
 
+
+
 with open("maps/town.json") as f:
     town_data = json.load(f)#currently, all of the values in the grid and grid collisions are placeholders
     WIDTH, HEIGHT = town_data['width'], town_data['height']
@@ -27,6 +29,13 @@ BLUE=(0,0,255)
 FPS = 60
 
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
+pygame.display.set_caption("hello world")
+
+font = pygame.font.Font("testFont.ttf",32)
+text = font.render('Test', True, BLACK, WHITE)
+
+textRect = text.get_rect()
+textRect.center = (WIDTH//2, HEIGHT//2)
 
 running = True
 
@@ -37,21 +46,27 @@ clock = pygame.time.Clock()
 pWidth = int(WIDTH*0.05)
 pHeight = int(HEIGHT*0.075)
 
-_TOWN=[[(RED,GREEN,BLUE)[random.randint(0,2)] for i in range(100)] for j in range(100)] #generate town map of random tile colors
+_TOWN=[[(RED,GREEN,BLUE)[random.randint(0,2)] for i in range(50)] for j in range(50)] #generate town map of random tile colors
 _TOWNCOL=[[False for i in range(100)] for j in range(100)]
 stage=stage.Stage(_TOWN,_TOWNCOL,WIDTH,HEIGHT,TILE_SIZE,screen)
-player = Player(int((len(_TOWN)*TILE_SIZE)/2),int(len((_TOWN[0]*TILE_SIZE))/2),pWidth,pHeight,screen)
+player = Player(int((len(_TOWN)*TILE_SIZE)/2),int(len((_TOWN[0]*TILE_SIZE))/2),pWidth,pHeight,screen, FPS)
 
 while running:
+    
     screen.fill(BLACK)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
+    stage.draw(player)
+
+    
 
     player.move(stage)
-    stage.draw(player)
+    
     player.draw()
+
+    screen.blit(text,textRect)
     
     pygame.display.flip()
     clock.tick(FPS)
