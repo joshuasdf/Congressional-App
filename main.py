@@ -32,10 +32,7 @@ screen = pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption("hello world")
 
 font = pygame.font.Font("testFont.ttf",32)
-text = font.render('Test', True, BLACK, WHITE)
 
-textRect = text.get_rect()
-textRect.center = (WIDTH//2, HEIGHT//2)
 
 running = True
 
@@ -51,8 +48,34 @@ _TOWNCOL=[[False for i in range(100)] for j in range(100)]
 stage=stage.Stage(_TOWN,_TOWNCOL,WIDTH,HEIGHT,TILE_SIZE,screen)
 player = Player(int((len(_TOWN)*TILE_SIZE)/2),int(len((_TOWN[0]*TILE_SIZE))/2),pWidth,pHeight,screen, FPS)
 
-while running:
+
+def draw_rect_alpha(color, rect):
+    shape_surf = pygame.Surface(pygame.Rect(rect).size, pygame.SRCALPHA)
+    pygame.draw.rect(shape_surf, color, shape_surf.get_rect())
+    screen.blit(shape_surf, rect)
+
+def display_dialogue(text):
     
+    draw_rect_alpha(
+        (
+            150, # r
+            75, # g
+            0, # b
+            200, # alpha (opacity)
+        ),
+        (
+            50, # x
+            HEIGHT-150, # y
+            WIDTH-100, # width
+            75 # height
+        )
+
+
+    )
+
+
+while running:
+
     screen.fill(BLACK)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -63,10 +86,10 @@ while running:
     
 
     player.move(stage)
-    
     player.draw()
 
-    screen.blit(text,textRect)
+    display_dialogue("hello world")
+
     
     pygame.display.flip()
     clock.tick(FPS)
