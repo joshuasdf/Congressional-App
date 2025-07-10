@@ -63,7 +63,7 @@ display_text = True
 text_len = 0
 text = "hello world"
 textevent = pygame.USEREVENT+1
-text_surf = None
+text_surf = font.render(text,True,(255,255,255))
 
 pygame.time.set_timer(textevent, 60)
 
@@ -92,10 +92,11 @@ while running:
                 text_len += 1
                 if text_len > len(text):
                     text_len = 0
+
                 if text_len == 0:
-                    text_surf = None
+                    text_surf = font.render(text,True,(255,255,255))
                 else:
-                    text_surf = font.render(text[:text_len], True, (255, 255, 128))
+                    text_surf = font.render(text[:text_len], True, (255, 255, 255))
 
     stage.draw(player)
 
@@ -103,9 +104,10 @@ while running:
     player.draw()
 
 
-    if text_surf:
-        surf = display_dialogue()
-        screen.blit(text_surf, text_surf.get_rect(topleft = surf).move(40, 0))
+
+    surf = display_dialogue()
+    screen.blit(text_surf, text_surf.get_rect(topleft = surf).move(40, 0))
+
 
     pygame.display.flip()
 
