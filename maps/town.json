@@ -1,10 +1,10 @@
 {
     "used_tiles":{
-        "grass":"grass.png",
-        "water":"water.png",
-        "sand":"sand.png",
-        "road":"road.png",
-        "building":"building.png"
+        "grass":"tiles/grass.png",
+        "water":"tiles/water.png",
+        "sand":"tiles/sand.png",
+        "road":"tiles/road.png",
+        "building":"tiles/building.png"
     },"width":1000,
     "height":750,
     "tile_size":100,

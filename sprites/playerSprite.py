@@ -42,7 +42,7 @@ class Player:
             self.x += self.speed
             if self.checkCollision(stage):
                 self.x -= self.speed
-        print(self.x,self.y, self.getTile(stage.t_size))
+        # print(self.x,self.y, self.getTile(stage.t_size))
 
     def getTile(self,t_size):
         return (self.x//t_size,self.y//t_size)
@@ -50,7 +50,7 @@ class Player:
     def checkCollision(self, stage):
         stageSize=(len(stage.grid[0])*stage.t_size,len(stage.grid)*stage.t_size)
         return(
-            stage.collisions[self.getTile(stage.t_size)] or
+            stage.collisions[self.getTile(stage.t_size)[0]-1][self.getTile(stage.t_size)[1]-1] or
             self.x<0 or
             self.y<0 or
             self.x>stageSize[0] or
