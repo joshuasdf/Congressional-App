@@ -6,7 +6,7 @@ from maps import stage
 import random # to test scrolling
 
 pygame.init()
-
+pygame.font.init()
 
 
 with open("maps/town.json") as f:
@@ -19,6 +19,8 @@ with open("maps/town.json") as f:
     #later, once we have tiles built into the json file, the stage will be initialized here with the town_data
 
 
+ANTI_ALIAS = False
+
 WHITE = (255,255,255)
 BLACK = (0,0,0)
 
@@ -28,10 +30,8 @@ BLUE=(0,0,255)
 
 FPS = 60
 
-screen = pygame.display.set_mode((WIDTH,HEIGHT))
+screen = pygame.display.set_mode((WIDTH,HEIGHT), pygame.DOUBLEBUF) # doublebuffering to increase visual quality
 pygame.display.set_caption("hello world")
-
-font = pygame.font.Font("testFont.ttf",32)
 
 
 running = True
@@ -51,48 +51,63 @@ player = Player(int((len(_TOWN)*TILE_SIZE)/2),int(len((_TOWN[0]*TILE_SIZE))/2),p
 
 def draw_rect_alpha(color, rect):
     shape_surf = pygame.Surface(pygame.Rect(rect).size, pygame.SRCALPHA)
-    pygame.draw.rect(shape_surf, color, shape_surf.get_rect())
+    s = pygame.draw.rect(shape_surf, color, shape_surf.get_rect())
     screen.blit(shape_surf, rect)
 
-def display_dialogue(text):
+    return s
+
+TEXT_SIZE = 32
+font = pygame.font.Font("testFont.ttf", TEXT_SIZE)
+
+display_text = True
+text_len = 0
+text = "hello world"
+textevent = pygame.USEREVENT+1
+text_surf = None
+
+pygame.time.set_timer(textevent, 60)
+
+def display_dialogue():
+
+    bX = 50
+    bY = HEIGHT-150
     
-    draw_rect_alpha(
-        (
-            150, # r
-            75, # g
-            0, # b
-            200, # alpha (opacity)
-        ),
-        (
-            50, # x
-            HEIGHT-150, # y
-            WIDTH-100, # width
-            75 # height
-        )
+    surf = draw_rect_alpha((150, 75, 0, 200), (bX, bY, WIDTH-100, 100))
+    return (bX-35, bY+5)
 
 
-    )
 
+pygame.event.set_allowed([pygame.KEYDOWN,pygame.QUIT, textevent]) # set the allowed events
 
 while running:
-
+    clock.tick(FPS)
     screen.fill(BLACK)
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-    stage.draw(player)
+        if event.type == textevent:
+            if display_text:
+                text_len += 1
+                if text_len > len(text):
+                    text_len = 0
+                if text_len == 0:
+                    text_surf = None
+                else:
+                    text_surf = font.render(text[:text_len], True, (255, 255, 128))
 
-    
+    stage.draw(player)
 
     player.move(stage)
     player.draw()
 
-    display_dialogue("hello world")
 
-    
+    if text_surf:
+        surf = display_dialogue()
+        screen.blit(text_surf, text_surf.get_rect(topleft = surf).move(40, 0))
+
     pygame.display.flip()
-    clock.tick(FPS)
 
 pygame.quit()
 sys.exit()
