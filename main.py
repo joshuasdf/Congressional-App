@@ -43,9 +43,9 @@ clock = pygame.time.Clock()
 pWidth = int(WIDTH*0.05)
 pHeight = int(HEIGHT*0.075)
 
-_TOWN=[[(RED,GREEN,BLUE)[random.randint(0,2)] for i in range(50)] for j in range(50)] #generate town map of random tile colors
+_TOWN=[[(RED,GREEN,BLUE)[random.randint(0,2)] for i in range(100)] for j in range(100)] #generate town map of random tile colors
 _TOWNCOL=[[False for i in range(100)] for j in range(100)]
-stage=stage.Stage(_TOWN,_TOWNCOL,WIDTH,HEIGHT,TILE_SIZE,screen)
+stage=stage.Stage(_TOWN,_TOWNCOL,WIDTH,HEIGHT,TILE_SIZE,screen,scroll=True)
 player = Player(int((len(_TOWN)*TILE_SIZE)/2),int(len((_TOWN[0]*TILE_SIZE))/2),pWidth,pHeight,screen, FPS)
 
 
@@ -101,7 +101,7 @@ while running:
     stage.draw(player)
 
     player.move(stage)
-    player.draw()
+    player.draw(stage)
 
 
 

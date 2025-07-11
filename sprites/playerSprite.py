@@ -9,16 +9,19 @@ class Player:
         self.speed = 400//FPS
         self.screen = screen
 
-    def draw(self):
-        #pygame.draw.rect(self.screen, (255,255,255), (self.x,self.y, self.width,self.height))
-        pygame.draw.rect(
-            self.screen,
-            (255,255,255),
-            (int((self.screen.get_width()-self.width)/2),
-            int((self.screen.get_height()-self.height)/2),
-            self.width,
-            self.height)
-        )
+    def draw(self,stage):
+
+        if stage.scroll:
+            pygame.draw.rect(
+                self.screen,
+                (255,255,255),
+                (int((self.screen.get_width()-self.width)/2),
+                int((self.screen.get_height()-self.height)/2),
+                self.width,
+                self.height)
+            )
+            return
+        pygame.draw.rect(self.screen, (255,255,255), (self.x,self.y, self.width,self.height))
 
     def move(self,stage):
         keys = pygame.key.get_pressed()
