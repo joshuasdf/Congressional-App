@@ -60,12 +60,13 @@ TEXT_SIZE = 32
 font = pygame.font.Font("testFont.ttf", TEXT_SIZE)
 
 display_text = True
+display_done = False
 text_len = 0
 text = "hello world"
 textevent = pygame.USEREVENT+1
 text_surf = font.render(text,True,(255,255,255))
 
-pygame.time.set_timer(textevent, 60)
+pygame.time.set_timer(textevent, 200)
 
 def display_dialogue():
 
@@ -89,14 +90,19 @@ while running:
 
         if event.type == textevent:
             if display_text:
-                text_len += 1
-                if text_len > len(text):
-                    text_len = 0
+                if not display_done:
+                    text_len += 1
+                    if text_len > len(text):
+                        # text_len = 0
+                        display_done = True
 
-                if text_len == 0:
-                    text_surf = font.render(text,True,(255,255,255))
-                else:
-                    text_surf = font.render(text[:text_len], True, (255, 255, 255))
+                    if text_len == 0:
+                        text_surf = font.render(text,True,(255,255,255))
+                    else:
+                        text_surf = font.render(text[:text_len], True, (255, 255, 255))
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if display_done:
+                display_text = False
 
     stage.draw(player)
 
@@ -104,9 +110,9 @@ while running:
     player.draw(stage)
 
 
-
-    surf = display_dialogue()
-    screen.blit(text_surf, text_surf.get_rect(topleft = surf).move(40, 0))
+    if display_text:
+        surf = display_dialogue()
+        screen.blit(text_surf, text_surf.get_rect(topleft = surf).move(40, 0))
 
 
     pygame.display.flip()
