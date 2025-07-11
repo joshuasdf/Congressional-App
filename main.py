@@ -49,6 +49,7 @@ stage=stage.Stage(_TOWN,_TOWNCOL,WIDTH,HEIGHT,TILE_SIZE,screen,scroll=True)
 player = Player(int((len(_TOWN)*TILE_SIZE)/2),int(len((_TOWN[0]*TILE_SIZE))/2),pWidth,pHeight,screen, FPS)
 
 
+# draw a translucent rectangle
 def draw_rect_alpha(color, rect):
     shape_surf = pygame.Surface(pygame.Rect(rect).size, pygame.SRCALPHA)
     s = pygame.draw.rect(shape_surf, color, shape_surf.get_rect())
@@ -56,6 +57,7 @@ def draw_rect_alpha(color, rect):
 
     return s
 
+# text stuff
 TEXT_SIZE = 32
 font = pygame.font.Font("testFont.ttf", TEXT_SIZE)
 
@@ -66,8 +68,10 @@ text = "hello world"
 textevent = pygame.USEREVENT+1
 text_surf = font.render(text,True,(255,255,255))
 
+# a timer for the text animation
 pygame.time.set_timer(textevent, 200)
 
+# display the text and the background for the text
 def display_dialogue():
 
     bX = 50
@@ -75,7 +79,6 @@ def display_dialogue():
     
     surf = draw_rect_alpha((150, 75, 0, 200), (bX, bY, WIDTH-100, 100))
     return (bX-35, bY+5)
-
 
 
 pygame.event.set_allowed([pygame.KEYDOWN,pygame.QUIT, textevent]) # set the allowed events
@@ -88,6 +91,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+        # the timer event for the text animation
         if event.type == textevent:
             if display_text:
                 if not display_done:
@@ -100,7 +104,10 @@ while running:
                         text_surf = font.render(text,True,(255,255,255))
                     else:
                         text_surf = font.render(text[:text_len], True, (255, 255, 255))
+
+
         if event.type == pygame.MOUSEBUTTONDOWN:
+            # checks if the text is done displaying
             if display_done:
                 display_text = False
 
@@ -110,6 +117,7 @@ while running:
     player.draw(stage)
 
 
+    # display the text
     if display_text:
         surf = display_dialogue()
         screen.blit(text_surf, text_surf.get_rect(topleft = surf).move(40, 0))
