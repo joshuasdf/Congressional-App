@@ -5,10 +5,9 @@
         "sand":"tiles/sand.png",
         "road":"tiles/road.png",
         "building":"tiles/building.png"
-    },"width":1000,
-    "height":750,
-    "tile_size":100,
+    },"tile_size":100,
     "name":"Town",
+    "scroll":true,
     "grid":[
         ["grass","grass","grass","grass","grass","grass","grass","grass","grass","grass"],
         ["grass","water","water","water","water","water","water","water","water","grass"],

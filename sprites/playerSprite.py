@@ -1,13 +1,13 @@
 import pygame
 # from maps.stage import Stage
 class Player:
-    def __init__(self, x, y, pWidth, pHeight, screen, FPS):
+    def __init__(self, x, y, pWidth, pHeight, FPS):
         self.x = x
         self.y = y
         self.width = pWidth
         self.height = pHeight
         self.speed = 400//FPS
-        self.screen = screen
+        self.screen = pygame.display.get_surface()
 
     def draw(self,stage):
 
@@ -45,15 +45,15 @@ class Player:
             self.x += self.speed
             if self.checkCollision(stage):
                 self.x -= self.speed
-        # print(self.x,self.y, self.getTile(stage.t_size))
+        # print(self.x,self.y, self.getTile(stage.tile_size))
 
-    def getTile(self,t_size):
-        return (self.x//t_size,self.y//t_size)
+    def getTile(self,tile_size):
+        return (self.x//tile_size,self.y//tile_size)
 
     def checkCollision(self, stage):
-        stageSize=(len(stage.grid[0])*stage.t_size,len(stage.grid)*stage.t_size)
+        stageSize=(len(stage.grid[0])*stage.tile_size,len(stage.grid)*stage.tile_size)
         return(
-            stage.collisions[self.getTile(stage.t_size)[0]-1][self.getTile(stage.t_size)[1]-1] or
+            stage.collisions[self.getTile(stage.tile_size)[0]-1][self.getTile(stage.tile_size)[1]-1] or
             self.x<0 or
             self.y<0 or
             self.x>stageSize[0] or
