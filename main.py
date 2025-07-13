@@ -7,17 +7,6 @@ from maps.stage import *
 pygame.init()
 pygame.font.init()
 
-
-# with open("maps/town.json") as f:
-#     town_data = json.load(f)#currently, all of the values in the grid and grid collisions are placeholders
-#     WIDTH, HEIGHT = town_data['width'], town_data['height']
-#     TILE_SIZE = town_data['tile_size']
-#     TILES= town_data['used_tiles']  # This will be a dictionary of tile names to file paths for all tiles used in the map
-#     GRID = town_data['grid']  # This will be a 2D array of tile names used in the map
-#     GRID_COLLISIONS = town_data['grid_collisions']  # This will be a 2D array of booleans indicating if a tile is a collision tile
-#     #later, once we have tiles built into the json file, the stage will be initialized here with the town_data
-
-
 ANTI_ALIAS = False
 
 WHITE = (255,255,255)
@@ -60,15 +49,8 @@ text_len = 0
 text = "hello world"
 textevent = pygame.USEREVENT+1
 text_surf = font.render(text,True,(255,255,255))
-
-# Main loop
-running = True
-
-keys = pygame.key.get_pressed()
-
-clock = pygame.time.Clock()
-
-pygame.time.set_timer(textevent, 60)
+# a timer for the text animation
+pygame.time.set_timer(textevent, 200)
 
 # display the text and the background for the text
 def display_dialogue():
@@ -79,6 +61,12 @@ def display_dialogue():
     surf = draw_rect_alpha((150, 75, 0, 200), (bX, bY, WIDTH-100, 100))
     return (bX-35, bY+5)
 
+# Main loop
+running = True
+
+keys = pygame.key.get_pressed()
+
+clock = pygame.time.Clock()
 
 pygame.event.set_allowed([pygame.KEYDOWN,pygame.QUIT, textevent]) # set the allowed events
 
