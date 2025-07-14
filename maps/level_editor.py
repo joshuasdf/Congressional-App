@@ -1,19 +1,20 @@
 import pygame
 import json
 import os
+import random
 
-level = "maps/town.json"
+level_path = "maps/assets/maps/town.json"
 
 class Editor:
     def __init__(self, level, screen):
         with open(level, 'r') as f:
             map_data = json.load(f)
             self.tile_size = map_data['tile_size']
+            self.level=map_data['name']
         self.screen = screen
         self.width=screen.get_width()/2
         self.height=screen.get_height()
         self.surface=pygame.Surface((self.width, self.height))
-        self.level = level
 
 
 class Builder(Editor):
@@ -21,7 +22,6 @@ class Builder(Editor):
         super().__init__(level, screen)
         with open(level, 'r') as f:
             map_data = json.load(f)
-            self.tiles = map_data['used_tiles']  # This will be a dictionary of tile names to file paths for all tiles used in the map
             self.grid = map_data['grid']  # This will be a 2D array of tile names used in the map
             self.collisions = map_data['grid_collisions']
             self.scroll = map_data['scroll']
@@ -38,8 +38,8 @@ class Palette(Editor):
 def main():
     pygame.init()
     screen = pygame.display.set_mode((1000, 750), pygame.DOUBLEBUF)
-    builder = Builder(level,screen)
-    palette = Palette(level, screen)
+    builder = Builder(level_path,screen)
+    palette = Palette(level_path, screen)
 
     # main loop
     running = True
@@ -72,13 +72,13 @@ def main():
 
 
 
-    with open(level, 'w') as f: # save changes to the map file
+    with open(level_path, 'w') as f: # save changes to the map file
         map_data = {
-            "used_tiles":builder.tiles,
-            "tile_size": builder.tile_size,
             "name": builder.level,
+            "tile_size": builder.tile_size,
             "scroll": builder.scroll,
             "grid": builder.grid,
+#            "grid": [[("maps/assets/tiles/dirt.png","maps/assets/tiles/water1.png","maps/assets/tiles/grass.png")[random.randint(0,2)] for i in range(100)] for j in range(100)],
             "grid_collisions": builder.collisions
         }
         json.dump(map_data, f, indent=4)    

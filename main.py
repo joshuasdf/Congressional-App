@@ -24,7 +24,7 @@ WIDTH=1000
 HEIGHT=750
 
 screen = pygame.display.set_mode((WIDTH,HEIGHT), pygame.DOUBLEBUF) # doublebuffering to increase visual quality
-stage=loadMap("maps/town.json") #at the moment, the map/town.json file is accessed, but its grid is not used to intialize the stage
+stage=loadMap("maps/assets/maps/town.json") #at the moment, the map/town.json file is accessed, but its grid is not used to intialize the stage
 pWidth = int(WIDTH*0.05)
 pHeight = int(HEIGHT*0.075)
 player = Player(int((len(stage.grid)*stage.tile_size)/2),int((len(stage.grid[0])*stage.tile_size)/2),pWidth,pHeight, FPS)
@@ -98,11 +98,9 @@ while running:
             if display_done:
                 display_text = False
 
-    stage.draw(player)
-
     player.move(stage)
+    stage.draw(player)
     player.draw(stage)
-
 
     # display the text
     if display_text:
