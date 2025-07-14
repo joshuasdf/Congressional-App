@@ -102,6 +102,8 @@ while running:
     stage.draw(player)
     player.draw(stage)
 
+    print(player.x, player.y, player.getTile(stage.tile_size))
+
     # display the text
     if display_text:
         surf = display_dialogue()

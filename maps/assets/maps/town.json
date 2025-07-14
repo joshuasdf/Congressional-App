@@ -1,6 +1,11 @@
 {
     "name": "town",
     "tile_size": 100,
+    "used_tiles": [
+        "maps/assets/tiles/grass.png",
+        "maps/assets/tiles/water1.png",
+        "maps/assets/tiles/dirt.png"
+    ],
     "scroll": true,
     "grid": [
         [

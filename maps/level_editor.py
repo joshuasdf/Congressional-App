@@ -73,9 +73,12 @@ def main():
 
 
     with open(level_path, 'w') as f: # save changes to the map file
+        tiles=list(set([tile for row in builder.grid for tile in row if tile is not None]))
+        print(tiles)
         map_data = {
             "name": builder.level,
             "tile_size": builder.tile_size,
+            "used_tiles": tiles,
             "scroll": builder.scroll,
             "grid": builder.grid,
 #            "grid": [[("maps/assets/tiles/dirt.png","maps/assets/tiles/water1.png","maps/assets/tiles/grass.png")[random.randint(0,2)] for i in range(100)] for j in range(100)],
