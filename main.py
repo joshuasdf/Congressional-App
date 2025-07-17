@@ -27,7 +27,8 @@ screen = pygame.display.set_mode((WIDTH,HEIGHT), pygame.DOUBLEBUF) # doublebuffe
 stage=loadMap("maps/assets/maps/town.json") #at the moment, the map/town.json file is accessed, but its grid is not used to intialize the stage
 pWidth = int(WIDTH*0.05)
 pHeight = int(HEIGHT*0.075)
-player = Player(int((len(stage.grid)*stage.tile_size)/2),int((len(stage.grid[0])*stage.tile_size)/2),pWidth,pHeight, FPS)
+# player = Player(int((len(stage.grid)*stage.tile_size)/2),int((len(stage.grid[0])*stage.tile_size)/2),pWidth,pHeight, FPS)
+player = Player(100,100,pWidth,pHeight, FPS)
 
 
 pygame.display.set_caption("hello world")

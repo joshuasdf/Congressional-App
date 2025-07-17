@@ -4,7 +4,6 @@ import json
 import pygame
 import os
 
-import random #temp, used to generate random town map colors
 RED=(255,0,0) 
 GREEN=(0,255,0)
 BLUE=(0,0,255)
@@ -16,13 +15,16 @@ class Stage:
         self.collisions=np.array(collisions)
         self.screen=screen
         self.tile_size=tile_size
-        self.frame_size=(self.screen.get_width()/self.tile_size,self.screen.get_height()/self.tile_size)
         self.scroll=scroll
         self.used_tiles=used_tiles  # cache of images used in the stage, to avoid loading the same image multiple times
         #pad the grid with null values to account for out of bounds rendering
+
+        #aux attributes for rendering
+        self.frame_size=(self.screen.get_width()/self.tile_size,self.screen.get_height()/self.tile_size)
+        self.pad_height, self.pad_width=math.ceil(self.frame_size[1]/2),math.ceil(self.frame_size[0]/2)
         self.padded_grid=np.pad(
             self.grid,
-            ((math.ceil(self.frame_size[1]/2),),(math.ceil(self.frame_size[0]/2),)),
+            ((self.pad_height,),(self.pad_width,)),
             mode='constant',
             constant_values=None
         )
@@ -31,12 +33,15 @@ class Stage:
     def draw(self,player):
         pTile=player.getTile(self.tile_size) #get the tile the player is on
         frame=self.padded_grid[ # Defining the frame with numpy slicing breaks at lower bound
-            max(pTile[0]-math.ceil(self.frame_size[0]/2),0):min(pTile[0]+math.ceil(self.frame_size[0]/2)+1,len(self.grid[0])),
-            max(pTile[1]-math.ceil(self.frame_size[1]/2),0):min(pTile[1]+math.ceil(self.frame_size[1]/2)+1,len(self.grid))      
+            # max(pTile[0]-math.ceil(self.frame_size[0]/2),0):min(pTile[0]+math.ceil(self.frame_size[0]/2)+1,len(self.grid[0])),
+            # max(pTile[1]-math.ceil(self.frame_size[1]/2),0):min(pTile[1]+math.ceil(self.frame_size[1]/2)+1,len(self.grid))
+            pTile[1]:pTile[1]+2*self.pad_height+1,   
+            pTile[0]:pTile[0]+2*self.pad_width+1
         ]
-        for i in range(len(frame)):
-            for j in range(len(frame[0])):
-                tile_path=frame[i][j]
+        print(self.pad_width,self.pad_height,frame.shape,end=' ')
+        for j in range(len(frame)):
+            for i in range(len(frame[0])):
+                tile_path=frame[j][i] #i is rows, j is columns
                 tile_rect=(int((i*self.tile_size) - (int(self.scroll)*(player.x % self.tile_size))),
                     int((j*self.tile_size) - (int(self.scroll)*(player.y % self.tile_size))),
                     self.tile_size,

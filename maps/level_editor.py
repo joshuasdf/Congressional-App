@@ -1,7 +1,6 @@
 import pygame
 import json
 import os
-import random
 
 level_path = "maps/assets/maps/town.json"
 
@@ -85,8 +84,6 @@ def main():
             "grid_collisions": builder.collisions
         }
         json.dump(map_data, f, indent=4)    
-
-
 
 
 if __name__ == "__main__":
