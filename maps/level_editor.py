@@ -72,18 +72,32 @@ def main():
 
 
     with open(level_path, 'w') as f: # save changes to the map file
-        tiles=list(set([tile for row in builder.grid for tile in row if tile is not None]))
+        tiles=list(set([tile for row in builder.grid for tile in row if tile is not None])) # Get unique tiles from the grid
+        with open("maps/assets/tiles/animated_tiles/animated_tiles.json", 'r') as animated_tiles_file:
+            animated_tiles = json.load(animated_tiles_file)
+            animated_tiles_info = {}
+            for tile in tiles:
+                if tile in animated_tiles:
+                    frames = animated_tiles[tile]['frames']
+                    tiles.extend(frames)
+                    animated_tiles_info[tile] = {
+                        "frames": frames,
+                        "frameDuration": animated_tiles[tile]['frameDuration']
+                    }
+                    tiles.remove(tile)  # Remove the original tile if it has animated frames
+                
         print(tiles)
         map_data = {
             "name": builder.level,
             "tile_size": builder.tile_size,
             "used_tiles": tiles,
+            "animated_tiles": animated_tiles_info,  # Save animated tiles info
             "scroll": builder.scroll,
             "grid": builder.grid,
 #            "grid": [[("maps/assets/tiles/dirt.png","maps/assets/tiles/water1.png","maps/assets/tiles/grass.png")[random.randint(0,2)] for i in range(100)] for j in range(100)],
             "grid_collisions": builder.collisions
         }
-        json.dump(map_data, f, indent=4)    
+        json.dump(map_data, f, indent=4)
 
 
 if __name__ == "__main__":

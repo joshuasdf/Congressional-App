@@ -28,7 +28,7 @@ stage=loadMap("maps/assets/maps/town.json") #at the moment, the map/town.json fi
 pWidth = int(WIDTH*0.05)
 pHeight = int(HEIGHT*0.075)
 # player = Player(int((len(stage.grid)*stage.tile_size)/2),int((len(stage.grid[0])*stage.tile_size)/2),pWidth,pHeight, FPS)
-player = Player(100,100,pWidth,pHeight, FPS)
+player = Player(9500,9500,pWidth,pHeight, FPS)
 
 
 pygame.display.set_caption("hello world")

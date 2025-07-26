@@ -1,0 +1,17 @@
+{
+    "maps/assets/tiles/water.png": {
+        "frames": [
+            "maps/assets/tiles/animated_tiles/water-f0.png",
+            "maps/assets/tiles/animated_tiles/water-f1.png",
+            "maps/assets/tiles/animated_tiles/water-f2.png",
+            "maps/assets/tiles/animated_tiles/water-f3.png",
+            "maps/assets/tiles/animated_tiles/water-f4.png",
+            "maps/assets/tiles/animated_tiles/water-f5.png",
+            "maps/assets/tiles/animated_tiles/water-f6.png",
+            "maps/assets/tiles/animated_tiles/water-f7.png",
+            "maps/assets/tiles/animated_tiles/water-f8.png",
+            "maps/assets/tiles/animated_tiles/water-f9.png"
+        ],
+        "frameDuration": 100
+    }
+}

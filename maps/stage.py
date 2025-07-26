@@ -10,7 +10,7 @@ BLUE=(0,0,255)
 
 
 class Stage:
-    def __init__(self,map,collisions,used_tiles,screen,tile_size,scroll=True):
+    def __init__(self,map,collisions,used_tiles,animated_tiles,screen,tile_size,scroll=True):
         self.grid=np.array(map)  # Convert the map to a numpy array for easier slicing
         self.collisions=np.array(collisions)
         self.screen=screen
@@ -18,6 +18,7 @@ class Stage:
         self.scroll=scroll
         self.used_tiles=used_tiles  # cache of images used in the stage, to avoid loading the same image multiple times
         #pad the grid with null values to account for out of bounds rendering
+        self.animated_tiles=animated_tiles  # This will be a dictionary of animated tiles with their frames and tick speed
 
         #aux attributes for rendering
         self.frame_size=(self.screen.get_width()/self.tile_size,self.screen.get_height()/self.tile_size)
@@ -31,6 +32,7 @@ class Stage:
 
 
     def draw(self,player):
+        tick=pygame.time.get_ticks() #get the current time in milliseconds
         pTile=player.getTile(self.tile_size) #get the tile the player is on
         frame=self.padded_grid[ # Defining the frame with numpy slicing breaks at lower bound
             # max(pTile[0]-math.ceil(self.frame_size[0]/2),0):min(pTile[0]+math.ceil(self.frame_size[0]/2)+1,len(self.grid[0])),
@@ -48,7 +50,17 @@ class Stage:
                     self.tile_size)
                 if tile_path is not None:
                     if isinstance(tile_path, str) and os.path.exists(tile_path):
-                        image = self.used_tiles[tile_path]
+                        if tile_path in self.used_tiles:
+                            # If the tile is already loaded, use it
+                            image = self.used_tiles[tile_path]
+                        else:
+                            # if the tile is not loaded, it must have loaded animated frames
+                            if tile_path in self.animated_tiles:
+                                tile_info= self.animated_tiles[tile_path]
+                                image = self.used_tiles[
+                                    f'maps/assets/tiles/animated_tiles/{tile_path[18:-4]}-f{int(tick/tile_info["frameDuration"]) % len(tile_info["frames"])}.png'
+                                ]
+                                print(f'Using animated tile: {tile_path} at tick {int(tick/tile_info["frameDuration"])} tick speed:{tile_info["frameDuration"]}')
                         image = pygame.transform.scale(image, (self.tile_size, self.tile_size))
                         self.screen.blit(image,tile_rect)
                         
@@ -61,7 +73,8 @@ def loadMap(filename):
         grid_collisions = map_data['grid_collisions']  # This will be a 2D array of booleans indicating if a tile is a collision tile
         scroll= map_data['scroll']
         used_tiles = {tile: pygame.image.load(tile).convert_alpha() for tile in map_data.get('used_tiles', []) if os.path.exists(tile)}
-    return Stage(grid, grid_collisions, used_tiles, pygame.display.get_surface(), tile_size, scroll)
+        animated_tiles = map_data.get('animated_tiles', {})
+    return Stage(grid, grid_collisions, used_tiles, animated_tiles, pygame.display.get_surface(), tile_size, scroll)
     
 
     
